@@ -269,19 +269,19 @@ Get API information and available endpoints
 ## 📸 Screenshots
 
 ### Main Interface
-![Main Interface](screenshots/main-interface.png)
+![Main Interface](screenshots/main.png)
 *Modern, animated UI with neural-inspired design*
 
 ### Positive Sentiment Analysis
-![Positive Result](screenshots/positive-result.png)
+![Positive Result](screenshots/positive.png)
 *Example of positive review classification*
 
 ### Negative Sentiment Analysis
-![Negative Result](screenshots/negative-result.png)
+![Negative Result](screenshots/negative.png)
 *Example of negative review classification*
 
 ### Test Suite Results
-![Test Suite](screenshots/test-suite.png)
+![Test Suite](screenshots/test.png)
 *Batch testing with multiple samples*
 
 ## 🎓 What I Learned
