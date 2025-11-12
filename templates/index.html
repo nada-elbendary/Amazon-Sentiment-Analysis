@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sentiment Analysis - Neural Engine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ultra Premium Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .gradient-mesh {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(30, 144, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 20, 147, 0.1) 0%, transparent 50%);
+            animation: meshMove 15s ease-in-out infinite;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(138, 43, 226, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 20s infinite ease-in-out;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { 
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            animation: orbFloat 25s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #8a2be2, transparent);
+            top: -300px;
+            left: -300px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #1e90ff, transparent);
+            bottom: -250px;
+            right: -250px;
+            animation-delay: 8s;
+        }
+
+        .orb-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #ff1493, transparent);
+            top: 50%;
+            right: 10%;
+            animation-delay: 16s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+            }
+            33% { 
+                transform: translate(150px, 150px) scale(1.2);
+            }
+            66% { 
+                transform: translate(-100px, 200px) scale(0.9);
+            }
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.5), transparent);
+            animation: scan 8s linear infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(138, 43, 226, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(138, 43, 226, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 1;
+            pointer-events: none;
+            animation: gridShift 20s linear infinite;
+        }
+
+        @keyframes gridShift {
+            0% { transform: perspective(500px) rotateX(60deg) translateZ(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateZ(60px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Futuristic Header */
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #8a2be2, #1e90ff);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 
+                0 0 60px rgba(138, 43, 226, 0.6),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: logoGlow 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(45deg, #8a2be2, #1e90ff, #ff1493, #8a2be2);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(10px);
+            animation: rotateBorder 4s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 60px rgba(138, 43, 226, 0.6),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 100px rgba(138, 43, 226, 0.9),
+                    inset 0 0 30px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        h1 {
+            font-size: 4.5em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #8a2be2 50%, #1e90ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -3px;
+            text-shadow: 0 0 80px rgba(138, 43, 226, 0.5);
+            animation: titleShine 3s ease-in-out infinite;
+        }
+
+        @keyframes titleShine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #999;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Premium Main Card */
+        .main-card {
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 30px;
+            padding: 60px;
+            box-shadow: 
+                0 30px 90px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 100px rgba(138, 43, 226, 0.1);
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.1), transparent);
+            animation: cardShimmer 3s infinite;
+        }
+
+        @keyframes cardShimmer {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .section-icon {
+            font-size: 1.8em;
+            filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.8));
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* Ultra Premium Textarea */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 35px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 25px;
+            background: rgba(20, 20, 20, 0.8);
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 17px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            min-height: 140px;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #8a2be2;
+            background: rgba(20, 20, 20, 0.95);
+            box-shadow: 
+                0 0 40px rgba(138, 43, 226, 0.4),
+                inset 0 0 20px rgba(138, 43, 226, 0.05);
+            transform: translateY(-2px);
+        }
+
+        textarea::placeholder {
+            color: #555;
+        }
+
+        /* Premium Buttons */
+        .button-group {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        button {
+            padding: 20px 40px;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.8s, height 0.8s;
+        }
+
+        button:active::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8a2be2 0%, #1e90ff 100%);
+            color: white;
+            box-shadow: 
+                0 15px 40px rgba(138, 43, 226, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 60px rgba(138, 43, 226, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-test {
+            background: linear-gradient(135deg, #00ff87 0%, #60efff 100%);
+            color: #000;
+            box-shadow: 
+                0 15px 40px rgba(0, 255, 135, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            font-weight: 900;
+        }
+
+        .btn-test:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 60px rgba(0, 255, 135, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Premium Loading */
+        .loading {
+            text-align: center;
+            padding: 80px;
+            display: none;
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 40px;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .spinner::before,
+        .spinner::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
+            border-radius: 50%;
+        }
+
+        .spinner::before {
+            border-top-color: #8a2be2;
+            border-right-color: #1e90ff;
+            animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+
+        .spinner::after {
+            border-bottom-color: #ff1493;
+            border-left-color: #00ff87;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite reverse;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: #888;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Premium Result Card */
+        .result-section {
+            margin-top: 50px;
+            display: none;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .result-card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px;
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #8a2be2, #1e90ff, #ff1493, #8a2be2);
+            animation: resultShimmer 3s linear infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes resultShimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .result-card.positive::before {
+            background: linear-gradient(90deg, #00ff87, #60efff, #00ff87);
+            background-size: 200% 100%;
+        }
+
+        .result-card.negative::before {
+            background: linear-gradient(90deg, #ff1493, #ff6b6b, #ff1493);
+            background-size: 200% 100%;
+        }
+
+        .sentiment-badge {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 35px;
+            padding: 30px;
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            box-shadow: inset 0 0 30px rgba(138, 43, 226, 0.1);
+        }
+
+        .emoji {
+            font-size: 5em;
+            filter: drop-shadow(0 0 30px rgba(138, 43, 226, 0.8));
+            animation: emojiFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes emojiFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
+
+        .sentiment-text {
+            font-size: 3em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .result-card.positive .sentiment-text {
+            background: linear-gradient(135deg, #fff, #00ff87);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-card.negative .sentiment-text {
+            background: linear-gradient(135deg, #fff, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .confidence {
+            background: rgba(138, 43, 226, 0.1);
+            padding: 18px 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            display: inline-block;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            font-weight: 600;
+        }
+
+        .details {
+            margin-top: 35px;
+        }
+
+        .detail-item {
+            background: rgba(138, 43, 226, 0.05);
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            border-left: 4px solid #8a2be2;
+            transition: all 0.3s;
+        }
+
+        .detail-item:hover {
+            background: rgba(138, 43, 226, 0.1);
+            transform: translateX(5px);
+        }
+
+        .detail-item strong {
+            display: block;
+            margin-bottom: 12px;
+            color: #8a2be2;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .cleaned-text {
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #aaa;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .label-badge {
+            background: linear-gradient(135deg, #8a2be2, #1e90ff);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 900;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4);
+            letter-spacing: 1px;
+        }
+
+        /* Test Section */
+        .test-section {
+            margin-top: 50px;
+            display: none;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+        }
+
+        .test-card {
+            background: rgba(20, 20, 20, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .test-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #8a2be2, #1e90ff);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .test-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .test-card:hover {
+            transform: translateY(-10px);
+            border-color: #8a2be2;
+            box-shadow: 
+                0 25px 50px rgba(138, 43, 226, 0.4),
+                inset 0 0 30px rgba(138, 43, 226, 0.1);
+        }
+
+        .test-number {
+            font-weight: 900;
+            color: #8a2be2;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            letter-spacing: 1px;
+        }
+
+        .test-text {
+            font-size: 15px;
+            margin-bottom: 25px;
+            min-height: 70px;
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        .test-result {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 900;
+            padding-top: 20px;
+            border-top: 1px solid rgba(138, 43, 226, 0.2);
+            font-size: 1.1em;
+        }
+
+        /* Error Card */
+        .error-card {
+            background: rgba(255, 20, 147, 0.1);
+            border: 2px solid rgba(255, 20, 147, 0.3);
+            padding: 40px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .error-icon {
+            font-size: 3.5em;
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8));
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px;
+            color: #555;
+            font-size: 0.95em;
+            letter-spacing: 1px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3em;
+            }
+
+            .main-card {
+                padding: 40px 25px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ultra Premium Animated Background -->
+    <div class="bg-animation">
+        <div class="gradient-mesh"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <div class="scan-line"></div>
+    </div>
+    <div class="grid-pattern"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <div class="logo-icon">🧠</div>
+            </div>
+            <h1>Neural Sentiment Engine</h1>
+            <p class="subtitle">Advanced AI-Powered Analysis</p>
+        </header>
+
+        <!-- Main Card -->
+        <div class="main-card">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2 class="section-title">
+                    <span class="section-icon"></span>
+                    Enter Review Text
+                </h2>
+                <div class="input-wrapper">
+                    <textarea 
+                        id="reviewInput" 
+                        placeholder="Type or paste your review here... Our AI will analyze the sentiment with precision."
+                        rows="4"
+                    ></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button onclick="analyzeSentiment()" class="btn-primary">
+                        <span>Analyze Sentiment</span>
+                    </button>
+                    <button onclick="clearAll()" class="btn-secondary">
+                        <span>Clear</span>
+                    </button>
+                    <button onclick="runTests()" class="btn-test">
+                        <span>⚡ Test Suite</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="loading">
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                </div>
+                <p>ANALYZING SENTIMENT...</p>
+            </div>
+
+            <!-- Result Section -->
+            <div id="resultSection" class="result-section">
+                <h2 class="section-title">
+                    <span class="section-icon">📊</span>
+                    Analysis Results
+                </h2>
+                <div id="resultContent"></div>
+            </div>
+
+            <!-- Test Results -->
+            <div id="testSection" class="test-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🧪</span>
+                    Test Results
+                </h2>
+                <div id="testResults"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>AMAZON</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create particles dynamically
+        function createParticles() {
+            const bgAnimation = document.querySelector('.bg-animation');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                bgAnimation.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        async function analyzeSentiment() {
+            const reviewInput = document.getElementById('reviewInput');
+            const review = reviewInput.value.trim();
+            
+            if (!review) {
+                alert('Please enter a review first!');
+                return;
+            }
+
+            showLoading();
+            hideResults();
+            hideTests();
+
+            try {
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ review: review })
+                });
+
+                const data = await response.json();
+                hideLoading();
+
+                if (data.status === 'success') {
+                    displayResult(data);
+                } else {
+                    displayError(data.error);
+                }
+
+            } catch (error) {
+                hideLoading();
+                displayError('Connection error: ' + error.message);
+            }
+        }
+
+        function displayResult(data) {
+            const resultContent = document.getElementById('resultContent');
+            const sentimentClass = data.sentiment === 'Positive' ? 'positive' : 'negative';
+            
+            let confidenceHTML = '';
+            if (data.confidence) {
+                confidenceHTML = `
+                    <div class="confidence">
+                        <strong>Confidence Level:</strong> ${data.confidence.toFixed(2)}%
+                    </div>
+                `;
+            }
+
+            resultContent.innerHTML = `
+                <div class="result-card ${sentimentClass}">
+                    <div class="sentiment-badge">
+                        <span class="emoji">${data.emoji}</span>
+                        <span class="sentiment-text">${data.sentiment}</span>
+                    </div>
+                    ${confidenceHTML}
+                    <div class="details">
+                        <div class="detail-item">
+                            <strong>Original Text</strong>
+                            <p>${data.original_text}</p>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Processed Text</strong>
+                            <p class="cleaned-text">${data.cleaned_text}</p>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Classification Label</strong>
+                            <span class="label-badge">Label ${data.prediction_label}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            showResults();
+        }
+
+        function displayError(errorMessage) {
+            const resultContent = document.getElementById('resultContent');
+            resultContent.innerHTML = `
+                <div class="error-card">
+                    <span class="error-icon">⚠️</span>
+                    <p>${errorMessage}</p>
+                </div>
+            `;
+            showResults();
+        }
+
+        async function runTests() {
+            showLoading();
+            hideResults();
+            hideTests();
+
+            try {
+                const response = await fetch('/api/test');
+                const data = await response.json();
+
+                hideLoading();
+
+                if (data.test_results) {
+                    displayTests(data.test_results);
+                }
+
+            } catch (error) {
+                hideLoading();
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function displayTests(results) {
+            const testResults = document.getElementById('testResults');
+            
+            let html = '<div class="test-grid">';
+            
+            results.forEach((result, index) => {
+                const sentimentClass = result.sentiment === 'Positive' ? 'positive' : 'negative';
+                html += `
+                    <div class="test-card ${sentimentClass}">
+                        <div class="test-number">TEST #${index + 1}</div>
+                        <div class="test-text">${result.original_text}</div>
+                        <div class="test-result">
+                            <span class="emoji">${result.emoji}</span>
+                            <span>${result.sentiment}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            testResults.innerHTML = html;
+            showTests();
+        }
+
+        function clearAll() {
+            document.getElementById('reviewInput').value = '';
+            hideResults();
+            hideTests();
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function showResults() {
+            document.getElementById('resultSection').style.display = 'block';
+        }
+
+        function hideResults() {
+            document.getElementById('resultSection').style.display = 'none';
+        }
+
+        function showTests() {
+            document.getElementById('testSection').style.display = 'block';
+        }
+
+        function hideTests() {
+            document.getElementById('testSection').style.display = 'none';
+        }
+
+        document.getElementById('reviewInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                analyzeSentiment();
+            }
+        });
+    </script>
+</body>
+</html>
