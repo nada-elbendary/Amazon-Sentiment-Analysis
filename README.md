@@ -351,7 +351,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-**Nada Mohammed Ahmed**
+**Nada Mohammed Elbendary**
 - LinkedIn: [Nada Mohammed](https://www.linkedin.com/in/nada-mohammed5)
 - Email: nadaelbendary3@gmail.com
 - GitHub: [@nada-elbendary](https://github.com/nada-elbendary)
