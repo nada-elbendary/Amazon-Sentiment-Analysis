@@ -637,7 +637,7 @@ pip install flask scikit-learn pandas numpy nltk
 
 ### 🚧 In Progress
 - [ ] Deploy to production (Render/Heroku)
-- [ ] Add screenshots and demo GIF
+- [ ] Add Demo GIF
 - [ ] Model explainability (LIME/SHAP)
 
 ### 🎯 Future Plans
